@@ -9,9 +9,11 @@ import { IoMdClose } from 'react-icons/io';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Features', href: '/features' },
+  { name: 'Docs', href: '/documentation' },
+  { name: 'Components', href: '/components' },
   { name: 'Pricing', href: '/pricing' },
+  { name: 'About', href: '/About' },
+  
 ];
 
 function Header() {
@@ -31,13 +33,12 @@ function Header() {
     <header
       className={cn(
         'fixed top-0 z-50 w-full transition-all duration-300',
-        'bg-transparent',
-        isScrolled ? 'backdrop-blur-sm bg-black/80' : ''
+        isScrolled ? 'backdrop-blur-sm bg-black/80' : 'bg-transparent'
       )}
     >
-      <div className={cn("relative", { "backdrop-blur-sm": isOpen })}>
+      <div className="relative">
         <div className="container flex items-center justify-between relative z-10 px-4 sm:px-6 lg:px-8 h-16">
-          <Link href="/" className="text-2xl font-bold text-emerald-500">UI Playground</Link>
+          <Link href="/" className="text-2xl font-bold text-green-500">UI <span className="text-white">Playground</span></Link>
           <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
@@ -45,7 +46,7 @@ function Header() {
                 href={item.href}
                 className={cn(
                   "text-sm transition-colors",
-                  "text-white hover:text-emerald-500"
+                  "text-white hover:text-green-500"
                 )}
               >
                 {item.name}
@@ -53,7 +54,7 @@ function Header() {
             ))}
           </nav>
           <div className="hidden md:flex items-center">
-            <Button className="bg-emerald-600 text-white hover:bg-emerald-700 mr-4">
+            <Button className="bg-green-600 text-white hover:bg-green-700 mr-4">
               Get Started
             </Button>
           </div>
@@ -73,6 +74,9 @@ function Header() {
           </div>
         </div>
 
+        {/* Border at the bottom of the navbar with shadow */}
+        <div className={cn("h-px bg-gray-700 shadow transition-opacity duration-300", isScrolled ? 'opacity-0' : 'opacity-100', "md:hidden")} />
+
         {/* Mobile Menu */}
         {isOpen && (
           <motion.div
@@ -89,7 +93,7 @@ function Header() {
                 </Link>
               ))}
               
-              <Button className="bg-emerald-600 text-white rounded-full hover:bg-emerald-700">
+              <Button className="bg-green-600 text-white rounded-full hover:bg-green-700">
                 Get Started
               </Button>
               <Button className="px-8 py-3 bg-black rounded-full border border-gray-700 text-white font-medium hover:bg-white/5 transition-all duration-200">

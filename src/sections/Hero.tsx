@@ -3,14 +3,13 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stats, setStats] = useState([
-    { number: 0, label: "Active Users", target: 10000 },
-    { number: 0, label: "Team Members", target: 500 },
-    { number: 0, label: "Uptime SLA", target: 99.9 },
-    { number: 0, label: "Support", target: 24 },
+    { number: 0, label: "Active Users", target: 100, },
+    { number: 0, label: "Team Members", target: 3, },
+    { number: 0, label: "Components", target: 50, },
+    { number: 0, label: "Support", target: 24, },
   ]);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ export default function Hero() {
       <div 
         className="absolute inset-0 opacity-50"
         style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(16,185,129,0.15), transparent 80%)`
+          background: `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(57,255,20,0.15), transparent 80%)`
         }}
       />
 
@@ -55,11 +54,17 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-8 inline-block"
+            className="mb-8 inline-block relative"
           >
             <span className="px-3 py-1 text-sm font-medium bg-emerald-500/10 text-emerald-500 rounded-full border border-emerald-500/20">
-              v2.0.0 Latest Version
+              Launching v.1.0 Soon 🎉
             </span>
+            <div 
+              className="absolute inset-0 opacity-50"
+              style={{
+                background: `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(57,255,20,0.15), transparent 80%)`
+              }}
+            />
           </motion.div>
 
           {/* Animated heading */}
@@ -69,8 +74,9 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500"
           >
-            Build Your Next Idea{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600">
+            Build Your Next Idea
+            <br className="hidden md:block" />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-white/100">
               Faster & Better
             </span>
           </motion.h1>
@@ -82,9 +88,8 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto"
           >
-            The most powerful and flexible SaaS platform for building modern applications.
-            Start your free trial today.
-          </motion.p>
+           Over 50+ Free Tailwind CSS Components For Your Nextjs, Beautifully designed components that you can copy and paste into your apps. Made with Tailwind CSS. 
+           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
@@ -93,7 +98,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <button className="px-8 py-3 rounded-full bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-medium hover:from-emerald-700 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-emerald-500/25">
+            <button className="px-8 py-3 rounded-full bg-green-600 text-white font-medium hover:bg-green-600 transition-all duration-200 shadow-lg hover:shadow-green-600/25">
               Get Started Free
             </button>
             <button className="px-8 py-3 rounded-full border border-gray-700 text-white font-medium hover:bg-white/5 transition-all duration-200">
@@ -112,6 +117,7 @@ export default function Hero() {
               <div key={index} className="text-center">
                 <div className="text-3xl font-bold text-white mb-2">{stat.number}{typeof stat.number === 'number' && stat.label === "Uptime SLA" ? "%" : ""}</div>
                 <div className="text-gray-500">{stat.label}</div>
+                <span className="text-4xl">{stat.icon}</span>
               </div>
             ))}
           </motion.div>
