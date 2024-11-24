@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stats, setStats] = useState([
-    { number: 0, label: "Active Users", target: 100, icon: "👤" },
-    { number: 0, label: "Team Members", target: 3, icon: "👥" },
-    { number: 0, label: "Components", target: 50, icon: "🔧" },
-    { number: 0, label: "Support", target: 24, icon: "💬" },
+    { number: 0, label: "Active Users", target: 100 },
+    { number: 0, label: "Team Members", target: 3 },
+    { number: 0, label: "Components", target: 50 },
+    { number: 0, label: "Support", target: 24 },
   ]);
 
   useEffect(() => {
@@ -117,7 +117,6 @@ export default function Hero() {
               <div key={index} className="text-center">
                 <div className="text-3xl font-bold text-white mb-2">{stat.number}{typeof stat.number === 'number' && stat.label === "Uptime SLA" ? "%" : ""}</div>
                 <div className="text-gray-500">{stat.label}</div>
-                <span className="text-4xl">{stat.icon}</span>
               </div>
             ))}
           </motion.div>
