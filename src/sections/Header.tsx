@@ -54,7 +54,7 @@ function Header() {
             <Button className="bg-emerald-600 text-white hover:bg-emerald-700 mr-4">
               Get Started
             </Button>
-            <Button variant="outline" className="text-white border border-white hover:bg-white hover:text-black">
+            <Button variant="outline" className="text-black border border-white hover:bg-emerald-600 hover:text-white">
               Learn More
             </Button>
           </div>

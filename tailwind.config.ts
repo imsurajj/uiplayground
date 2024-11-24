@@ -19,7 +19,7 @@ const config: Config = {
   			body: ["var(--font-space-grotesk)", "sans-serif"]
   		},
   		container: {
-  			center: 'true',
+  			center: true,
   			padding: {
   				DEFAULT: '1rem',
   				lg: '2rem'
