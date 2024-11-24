@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { RiMenu3Fill } from 'react-icons/ri';
+import { IoMdClose } from 'react-icons/io';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -54,9 +56,6 @@ function Header() {
             <Button className="bg-emerald-600 text-white hover:bg-emerald-700 mr-4">
               Get Started
             </Button>
-            <Button variant="outline" className="text-black border border-white hover:bg-emerald-600 hover:text-white">
-              Learn More
-            </Button>
           </div>
 
           {/* Hamburger Menu for Mobile */}
@@ -66,69 +65,9 @@ function Header() {
               className="text-white focus:outline-none"
             >
               {isOpen ? (
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <motion.line
-                    x1="3" y1="6" x2="21" y2="6"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: 45 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <motion.line
-                    x1="3" y1="12" x2="21" y2="12"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    style={{ display: 'none' }}
-                  />
-                  <motion.line
-                    x1="3" y1="18" x2="21" y2="18"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: -45 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </svg>
+                <IoMdClose size={24} />
               ) : (
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <motion.line
-                    x1="3" y1="6" x2="21" y2="6"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <motion.line
-                    x1="3" y1="12" x2="21" y2="12"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <motion.line
-                    x1="3" y1="18" x2="21" y2="18"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </svg>
+                <RiMenu3Fill size={24} />
               )}
             </button>
           </div>
@@ -137,7 +76,7 @@ function Header() {
         {/* Mobile Menu */}
         {isOpen && (
           <motion.div
-            className="absolute top-16 left-0 w-full bg-black text-white p-4"
+            className="absolute top-17 left-0 w-full bg-black text-white p-4 z-50"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -145,12 +84,16 @@ function Header() {
           >
             <nav className="flex flex-col space-y-4">
               {navigation.map((item) => (
-                <Link key={item.name} href={item.href} className="text-sm">
+                <Link key={item.name} href={item.href} className="text-sm pl-4">
                   {item.name}
                 </Link>
               ))}
-              <Button className="bg-emerald-600 text-white hover:bg-emerald-700">
+              
+              <Button className="bg-emerald-600 text-white rounded-full hover:bg-emerald-700">
                 Get Started
+              </Button>
+              <Button className="px-8 py-3 bg-black rounded-full border border-gray-700 text-white font-medium hover:bg-white/5 transition-all duration-200">
+                View Components
               </Button>
             </nav>
           </motion.div>

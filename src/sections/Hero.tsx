@@ -3,8 +3,15 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
+
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [stats, setStats] = useState([
+    { number: 0, label: "Active Users", target: 10000 },
+    { number: 0, label: "Team Members", target: 500 },
+    { number: 0, label: "Uptime SLA", target: 99.9 },
+    { number: 0, label: "Support", target: 24 },
+  ]);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -13,6 +20,21 @@ export default function Hero() {
 
     window.addEventListener('mousemove', updateMousePosition);
     return () => window.removeEventListener('mousemove', updateMousePosition);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStats((prevStats) =>
+        prevStats.map((stat) => {
+          if (stat.number < stat.target) {
+            return { ...stat, number: Math.min(stat.number + 200, stat.target) };
+          }
+          return stat;
+        })
+      );
+    }, 50);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -79,21 +101,16 @@ export default function Hero() {
             </button>
           </motion.div>
 
-          {/* Stats */}
+          {/* Stats with counter animation */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
           >
-            {[
-              { number: "10K+", label: "Active Users" },
-              { number: "500+", label: "Team Members" },
-              { number: "99.9%", label: "Uptime SLA" },
-              { number: "24/7", label: "Support" },
-            ].map((stat, index) => (
+            {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-white mb-2">{stat.number}</div>
+                <div className="text-3xl font-bold text-white mb-2">{stat.number}{typeof stat.number === 'number' && stat.label === "Uptime SLA" ? "%" : ""}</div>
                 <div className="text-gray-500">{stat.label}</div>
               </div>
             ))}

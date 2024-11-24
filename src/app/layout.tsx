@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import Header from "@/sections/Header";
+import Header from "@/sections/Navbar";
 import Hero from "@/sections/Hero";
 
 const soraFont = Sora({
