@@ -3,11 +3,6 @@ import { Sora, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Header from "@/sections/Header";
 import Hero from "@/sections/Hero";
-import Companies from "@/sections/Companies";
-import { Features } from "@/sections/Features";
-import Pricing from "@/sections/Pricing";
-import Testimonials from "@/sections/Testimonials";
-import Footer from "@/sections/Footer";
 
 const soraFont = Sora({
   subsets: ["latin"],
@@ -37,8 +32,6 @@ export default function RootLayout({
       >
         <Header />
         <Hero />
-        <Companies />
-        <Features />
         {children}
       </body>
     </html>
