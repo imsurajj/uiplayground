@@ -3,6 +3,10 @@
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
-export function MotionWrapper({ children, ...props }: { children: ReactNode, [key: string]: any }) {
+type MotionWrapperProps = {
+  children: React.ReactNode;
+};
+
+export function MotionWrapper({ children, ...props }: MotionWrapperProps) {
   return <motion.div {...props}>{children}</motion.div>;
 } 
