@@ -35,7 +35,7 @@ function Header() {
     >
       <div className={cn("relative", { "backdrop-blur-sm": isOpen })}>
         <div className="container flex items-center justify-between relative z-10 px-4 sm:px-6 lg:px-8 h-16">
-          <Link href="/" className="text-2xl font-bold text-emerald-500">SaaS Product</Link>
+          <Link href="/" className="text-2xl font-bold text-emerald-500">UI Playground</Link>
           <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
