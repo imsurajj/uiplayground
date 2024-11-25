@@ -9,11 +9,10 @@ import { IoMdClose } from 'react-icons/io';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Docs', href: '/documentation' },
-  { name: 'Components', href: '/components' },
+  { name: 'Docs', href: '/docs' },
+  { name: 'Components', href: '/docs/components' },
   { name: 'Pricing', href: '/pricing' },
-  { name: 'About', href: '/About' },
-  
+  { name: 'About', href: '/about' },
 ];
 
 function Header() {
