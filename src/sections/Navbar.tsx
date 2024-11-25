@@ -12,7 +12,7 @@ const navigation = [
   { name: 'Docs', href: '/docs' },
   { name: 'Components', href: '/docs/components' },
   { name: 'Pricing', href: '/pricing' },
-  { name: 'About', href: '/about' },
+  { name: 'About', href: '/About' },
 ];
 
 function Header() {

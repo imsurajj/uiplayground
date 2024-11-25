@@ -16,6 +16,7 @@ interface ParticleProps {
   speed?: number;
   particleDensity?: number;
   background?: string;
+  opacity?: number
 }
 
 export const SparklesCore = ({
