@@ -47,6 +47,7 @@ function Header() {
                   "text-sm transition-colors",
                   "text-white hover:text-green-500"
                 )}
+                onClick={() => setIsOpen(false)}
               >
                 {item.name}
               </Link>
@@ -79,23 +80,34 @@ function Header() {
         {/* Mobile Menu */}
         {isOpen && (
           <motion.div
-            className="absolute top-17 left-0 w-full bg-black text-white p-4 z-50"
+            className="absolute top-16 left-0 w-full bg-black/95 backdrop-blur-sm text-white p-4 z-50 border-t border-gray-800"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
             <nav className="flex flex-col space-y-4">
               {navigation.map((item) => (
-                <Link key={item.name} href={item.href} className="text-sm pl-4">
+                <Link 
+                  key={item.name} 
+                  href={item.href} 
+                  className="text-sm pl-4 hover:text-green-500 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
                   {item.name}
                 </Link>
               ))}
               
-              <Button className="bg-green-600 text-white rounded-full hover:bg-green-700">
+              <Button 
+                className="bg-green-600 text-white rounded-full hover:bg-green-700"
+                onClick={() => setIsOpen(false)}
+              >
                 Get Started
               </Button>
-              <Button className="px-8 py-3 bg-black rounded-full border border-gray-700 text-white font-medium hover:bg-white/5 transition-all duration-200">
+              <Button 
+                className="px-8 py-3 bg-black rounded-full border border-gray-700 text-white font-medium hover:bg-white/5 transition-all duration-200"
+                onClick={() => setIsOpen(false)}
+              >
                 View Components
               </Button>
             </nav>
