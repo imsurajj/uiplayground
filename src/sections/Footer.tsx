@@ -219,14 +219,14 @@ export const Footer = () => {
               Blog
             </a>
             </li>
-            <li>
+            {/* <li>
             <a
               href="#"
               className="text-sm leading-6 text-gray-400 hover:text-green-500"
             >
               Jobs
             </a>
-            </li>
+            </li> */}
             <li>
             <a
               href="#"
@@ -263,7 +263,7 @@ export const Footer = () => {
               href="#"
               className="text-sm leading-6 text-gray-400 hover:text-green-500"
             >
-              Privacy
+              Privacy & Policy
             </a>
             </li>
             <li>
@@ -271,7 +271,7 @@ export const Footer = () => {
               href="#"
               className="text-sm leading-6 text-gray-400 hover:text-green-500"
             >
-              Terms
+              Terms & Conditions
             </a>
             </li>
           </ul>
@@ -292,3 +292,21 @@ export const Footer = () => {
 };
 
 export default Footer;
+// Add fade-in animation
+const fadeInAnimation = `
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  footer {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+`;
+
+// Add style tag for fade-in animation
+if (typeof document !== 'undefined') {
+  const fadeStyle = document.createElement('style');
+  fadeStyle.innerHTML = fadeInAnimation;
+  document.head.appendChild(fadeStyle);
+}
