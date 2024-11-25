@@ -18,6 +18,14 @@ const spaceGroteskFont = Space_Grotesk({
 export const metadata: Metadata = {
   title: "UI Playground",
   description: "Component Library for Your Next Project",
+  icons: {
+    icon: [
+      {
+        url: "/UI.png",
+        href: "/UI.png",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
