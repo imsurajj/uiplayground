@@ -213,10 +213,10 @@ export const Footer = () => {
             </li>
             <li>
             <a
-              href="#"
+              href="/Request"
               className="text-sm leading-6 text-gray-400 hover:text-green-500"
             >
-              Blog
+              Request Components
             </a>
             </li>
             {/* <li>
@@ -229,10 +229,10 @@ export const Footer = () => {
             </li> */}
             <li>
             <a
-              href="#"
+              href="/Contact"
               className="text-sm leading-6 text-gray-400 hover:text-green-500"
             >
-              Press
+              Contact us
             </a>
             </li>
             <li>
