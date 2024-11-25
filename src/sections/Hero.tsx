@@ -47,7 +47,7 @@ export default function Hero() {
       />
 
       {/* Content container */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 pt-8 lg:px-8 relative z-10">
         <div className="text-center">
           {/* Version tag */}
           <motion.div

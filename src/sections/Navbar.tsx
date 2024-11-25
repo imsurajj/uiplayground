@@ -38,7 +38,7 @@ function Header() {
     >
       <div className="relative">
         <div className="container flex items-center justify-between relative z-10 px-4 sm:px-6 lg:px-8 h-16">
-          <Link href="/" className="text-2xl font-bold text-green-500">UI <span className="text-white">Playground</span></Link>
+          <Link href="/" className="text-2xl pl-2 font-bold text-green-500">UI <span className="text-white">Playground</span></Link>
           <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
