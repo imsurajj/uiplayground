@@ -53,9 +53,9 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
             className="mb-4 flex justify-center space-x-4"
           >
-            <a href="https://github.com/imsurajj/uiplayground" target="_blank" rel="noopener noreferrer">
+            {/* <a href="https://github.com/imsurajj/uiplayground" target="_blank" rel="noopener noreferrer">
               <img src="https://img.shields.io/github/stars/imsurajj/uiplayground?style=social" alt="GitHub stars" />
-            </a>
+            </a> */}
             {/* <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /> */}
           </motion.div>
 
@@ -66,6 +66,9 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
             className="mb-8 inline-block relative"
           >
+            <span className="px-3 mr-2 py-1 text-sm font-medium bg-emerald-500/10 text-emerald-500 rounded-full border border-emerald-500/20">
+              Open Source Library 🚀
+            </span>
             <span className="px-3 py-1 text-sm font-medium bg-emerald-500/10 text-emerald-500 rounded-full border border-emerald-500/20">
               Launching v.1.0 Soon 🎉
             </span>
@@ -106,7 +109,7 @@ export default function Hero() {
               Get Started Free
             </button>
             <a 
-              href="https://github.com/imsurajj/uiplayground"
+              href="https://github.com/imsurajj/uiplaymain"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 rounded-full border border-gray-700 text-white font-medium hover:bg-white/5 transition-all duration-200 flex items-center justify-center gap-2"
