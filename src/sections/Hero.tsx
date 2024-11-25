@@ -7,7 +7,7 @@ export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stats, setStats] = useState([
     { number: 0, label: "Active Users", target: 100 },
-    { number: 0, label: "Team Members", target: 3 },
+    { number: 0, label: "Team {<Button>...</Button>}  // Instead of just {Button}Members", target: 3 },
     { number: 0, label: "Components", target: 50 },
     { number: 0, label: "Support", target: 24 },
   ]);
