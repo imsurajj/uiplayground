@@ -15,12 +15,10 @@ interface ParticleProps {
   maxSize?: number;
   speed?: number;
   particleDensity?: number;
-  className?: string;
   background?: string;
 }
 
 export const SparklesCore = ({
-  id,
   className,
   background,
   minSize = 0.4,
