@@ -85,7 +85,7 @@ export const Footer = () => {
             viewBox="0 0 24 24"
             aria-hidden="true"
             >
-            <path d={link.icon.icon[4]} />
+            <path d={link.icon.icon[4].toString()} />
             </svg>
           </a>
           ))}
