@@ -109,7 +109,7 @@ export default function Hero() {
               Get Started Free
             </button>
             <a 
-              href="https://github.com/imsurajj/uiplaymain"
+              // href="https://github.com/imsurajj/uiplaymain"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 rounded-full border border-gray-700 text-white font-medium hover:bg-white/5 transition-all duration-200 flex items-center justify-center gap-2"
