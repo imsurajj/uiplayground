@@ -63,7 +63,7 @@ export async function POST(request: Request) {
         username: email,
         password: password,
       });
-      const authUrl = `${domain}/authorize?` + params.toString();
+      const authUrl = `${domain}/authorize?${params.toString()}`;
 
       return NextResponse.json({ 
         redirectUrl: authUrl,
