@@ -1,21 +1,20 @@
 import { NextResponse } from 'next/server';
 
+export const runtime = 'edge';
+
 export async function POST(request: Request) {
   try {
     const { email, password, name, isSignUp } = await request.json();
-    const domain = process.env.AUTH0_ISSUER_BASE_URL;
-    const clientId = process.env.AUTH0_CLIENT_ID;
-    const clientSecret = process.env.AUTH0_CLIENT_SECRET;
 
     if (isSignUp) {
       try {
-        const signupResponse = await fetch(`${domain}/dbconnections/signup`, {
+        const signupResponse = await fetch(`${process.env.AUTH0_ISSUER_BASE_URL}/dbconnections/signup`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            client_id: clientId,
+            client_id: process.env.AUTH0_CLIENT_ID,
             email,
             password,
             name,
@@ -55,15 +54,15 @@ export async function POST(request: Request) {
       // First, get the authorization URL
       const params = new URLSearchParams({
         response_type: 'code',
-        client_id: clientId ?? '',
+        client_id: process.env.AUTH0_CLIENT_ID ?? '',
         redirect_uri: `${process.env.AUTH0_BASE_URL}/api/auth/callback`,
         scope: 'openid profile email',
-        audience: `${domain}/api/v2/`,
+        audience: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/`,
         connection: 'Username-Password-Authentication',
         username: email,
         password: password,
       });
-      const authUrl = `${domain}/authorize?${params.toString()}`;
+      const authUrl = `${process.env.AUTH0_ISSUER_BASE_URL}/authorize?${params.toString()}`;
 
       return NextResponse.json({ 
         redirectUrl: authUrl,

@@ -1,19 +1,33 @@
-import { withMiddlewareAuthRequired } from '@auth0/nextjs-auth0/edge';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export default withMiddlewareAuthRequired({
-  async middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  // Skip middleware for these paths
+  const { pathname } = request.nextUrl;
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/static') ||
+    pathname === '/favicon.ico' ||
+    pathname === '/login'
+  ) {
     return NextResponse.next();
-  },
-  returnTo(request: NextRequest) {
-    return request.url;
   }
-});
+
+  // Check for auth token
+  const authToken = request.cookies.get('auth_token');
+  
+  if (!authToken) {
+    const url = new URL('/login', request.url);
+    url.searchParams.set('returnTo', pathname);
+    return NextResponse.redirect(url);
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [
-    '/documentation/:path*',
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ]
-};
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
+}
