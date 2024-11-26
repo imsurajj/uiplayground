@@ -53,9 +53,9 @@ export async function POST(request: Request) {
     // Login attempt using authorization code flow
     try {
       // First, get the authorization URL
-      const authUrl = `${domain}/authorize?` + new URLSearchParams({
+      const params = new URLSearchParams({
         response_type: 'code',
-        client_id: clientId,
+        client_id: clientId ?? '',
         redirect_uri: `${process.env.AUTH0_BASE_URL}/api/auth/callback`,
         scope: 'openid profile email',
         audience: `${domain}/api/v2/`,
@@ -63,6 +63,7 @@ export async function POST(request: Request) {
         username: email,
         password: password,
       });
+      const authUrl = `${domain}/authorize?` + params.toString();
 
       return NextResponse.json({ 
         redirectUrl: authUrl,
