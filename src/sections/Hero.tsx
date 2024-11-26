@@ -66,9 +66,9 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
             className="mb-8 inline-block relative"
           >
-            <span className="px-3 mr-2 py-1 text-sm font-medium bg-emerald-500/10 text-emerald-500 rounded-full border border-emerald-500/20">
+            {/* <span className="px-3 mr-2 py-1 text-sm font-medium bg-emerald-500/10 text-emerald-500 rounded-full border border-emerald-500/20">
               Open Source Library 🚀
-            </span>
+            </span> */}
             <span className="px-3 py-1 text-sm font-medium bg-emerald-500/10 text-emerald-500 rounded-full border border-emerald-500/20">
               Launching v.1.0 Soon 🎉
             </span>

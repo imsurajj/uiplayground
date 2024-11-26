@@ -30,14 +30,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${soraFont.variable} ${spaceGroteskFont.variable} antialiased bg-gray-950 text-gray-300 font-body`}
-      >
+      <body className={`${soraFont.variable} ${spaceGroteskFont.variable} antialiased font-body bg-white`}>
         <Header />
         {children}
       </body>
