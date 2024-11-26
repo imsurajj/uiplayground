@@ -1,17 +1,16 @@
-import { getSession } from '@auth0/nextjs-auth0/edge';
+import { withMiddlewareAuthRequired } from '@auth0/nextjs-auth0/edge';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export async function middleware(request: NextRequest) {
-  const session = await getSession(request);
-  
-  if (!session) {
-    return NextResponse.redirect(new URL('/login', request.url));
+export default withMiddlewareAuthRequired({
+  async middleware(request: NextRequest) {
+    return NextResponse.next();
+  },
+  returnTo(request: NextRequest) {
+    return new URL('/login', request.url).toString();
   }
-
-  return NextResponse.next();
-}
+});
 
 export const config = {
-  matcher: ['/documentation'],
+  matcher: ['/documentation']
 };
