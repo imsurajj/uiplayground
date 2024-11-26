@@ -4,9 +4,10 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const code = searchParams.get('code');
+    const state = searchParams.get('state');
 
     if (!code) {
-      return NextResponse.redirect('/login?error=missing_code');
+      return NextResponse.redirect(new URL('/login?error=missing_code', request.url));
     }
 
     const domain = process.env.AUTH0_ISSUER_BASE_URL;
@@ -28,13 +29,14 @@ export async function GET(request: Request) {
     });
 
     if (!tokenResponse.ok) {
-      return NextResponse.redirect('/login?error=token_exchange_failed');
+      return NextResponse.redirect(new URL('/login?error=token_exchange_failed', request.url));
     }
 
     const tokens = await tokenResponse.json();
 
     // Create response with redirect
-    const response = NextResponse.redirect('/documentation');
+    const returnTo = state ? decodeURIComponent(state) : '/documentation';
+    const response = NextResponse.redirect(new URL(returnTo, request.url));
 
     // Set auth token cookie
     response.cookies.set('auth_token', tokens.access_token, {
@@ -47,6 +49,6 @@ export async function GET(request: Request) {
     return response;
   } catch (error) {
     console.error('Callback error:', error);
-    return NextResponse.redirect('/login?error=callback_failed');
+    return NextResponse.redirect(new URL('/login?error=callback_failed', request.url));
   }
 }

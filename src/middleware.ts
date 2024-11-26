@@ -7,10 +7,13 @@ export default withMiddlewareAuthRequired({
     return NextResponse.next();
   },
   returnTo(request: NextRequest) {
-    return new URL('/login', request.url).toString();
+    return request.url;
   }
 });
 
 export const config = {
-  matcher: ['/documentation']
+  matcher: [
+    '/documentation/:path*',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ]
 };
