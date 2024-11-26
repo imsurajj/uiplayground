@@ -5,15 +5,28 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { useRouter } from 'next/navigation';
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stats, setStats] = useState([
     { number: 0, label: "Downloads", target: 100, prefix: "", suffix: "+" },
-    { number: 0, label: "GitHub Stars", target: 2, prefix: "", suffix: "" },
+    { number: 0, label: "Active Users", target: 50, prefix: "", suffix: "+" },
     { number: 0, label: "UI Components", target: 5, prefix: "", suffix: "+" },
     { number: 0, label: "Weekly Updates", target: 10, prefix: "", suffix: "/week" },
   ]);
+
+  const { user } = useUser();
+  const router = useRouter();
+
+  const handleGetStarted = () => {
+    if (!user) {
+      router.push('/login');
+    } else {
+      router.push('/documentation');
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -105,9 +118,14 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <button className="px-8 py-3 rounded-full bg-green-600 text-white font-medium hover:bg-green-600 transition-all duration-200 shadow-lg hover:shadow-green-600/25">
+            <motion.button
+              onClick={handleGetStarted}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors duration-200"
+            >
               Get Started Free
-            </button>
+            </motion.button>
             <a 
               // href="https://github.com/imsurajj/uiplaymain"
               target="_blank"

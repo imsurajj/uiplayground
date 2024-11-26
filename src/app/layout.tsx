@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sora, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Header from "@/sections/Navbar";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 const soraFont = Sora({
   subsets: ["latin"],
@@ -36,8 +37,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${soraFont.variable} ${spaceGroteskFont.variable} antialiased font-body bg-white`}>
-        <Header />
-        {children}
+        <UserProvider>
+          <Header />
+          {children}
+        </UserProvider>
       </body>
     </html>
   );

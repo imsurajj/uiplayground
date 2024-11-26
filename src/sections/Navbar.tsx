@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { RiMenu3Fill } from 'react-icons/ri';
 import { IoMdClose } from 'react-icons/io';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { useRouter } from 'next/navigation';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Docs', href: '/docs' },
+  { name: 'Docs', href: '/documentation' },
   { name: 'Components', href: '/docs/components' },
   { name: 'Pricing', href: '/pricing' },
   { name: 'About', href: '/About' },
@@ -18,6 +20,8 @@ const navigation = [
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +30,13 @@ function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleDocClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href === '/documentation' && !user) {
+      e.preventDefault();
+      router.push('/login');
+    }
+  };
 
   return (
     <header
@@ -48,7 +59,10 @@ function Header() {
                   key={item.name}
                   href={item.href}
                   className="text-sm transition-colors text-white hover:text-green-500"
-                  onClick={() => setIsOpen(false)}
+                  onClick={(e) => {
+                    handleDocClick(e, item.href);
+                    setIsOpen(false);
+                  }}
                 >
                   {item.name}
                 </Link>
@@ -57,9 +71,21 @@ function Header() {
           </nav>
 
           <div className="hidden md:flex items-center">
-            <Button className="bg-green-600 text-white hover:bg-green-700">
-              Get Started
-            </Button>
+            {user ? (
+              <Button
+                onClick={() => router.push('/api/auth/logout')}
+                className="bg-green-600 text-white hover:bg-green-700"
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button
+                onClick={() => router.push('/login')}
+                className="bg-green-600 text-white hover:bg-green-700"
+              >
+                Login
+              </Button>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -86,15 +112,30 @@ function Header() {
                   key={item.name}
                   href={item.href}
                   className="block px-3 py-2 text-base text-white hover:text-green-500"
-                  onClick={() => setIsOpen(false)}
+                  onClick={(e) => {
+                    handleDocClick(e, item.href);
+                    setIsOpen(false);
+                  }}
                 >
                   {item.name}
                 </Link>
               ))}
               <div className="px-3 py-2">
-                <Button className="w-full bg-green-600 text-white hover:bg-green-700">
-                  Get Started
-                </Button>
+                {user ? (
+                  <Button
+                    onClick={() => router.push('/api/auth/logout')}
+                    className="w-full bg-green-600 text-white hover:bg-green-700"
+                  >
+                    Logout
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => router.push('/login')}
+                    className="w-full bg-green-600 text-white hover:bg-green-700"
+                  >
+                    Login
+                  </Button>
+                )}
               </div>
             </div>
           </div>
