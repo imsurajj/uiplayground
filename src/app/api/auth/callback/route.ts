@@ -33,8 +33,7 @@ export async function GET(request: Request) {
     });
 
     if (!tokenResponse.ok) {
-      const error = await tokenResponse.text();
-      console.error('Token exchange failed:', error);
+      console.error('Token exchange failed:', await tokenResponse.text());
       return NextResponse.redirect(new URL('/login?error=token_exchange_failed', request.url));
     }
 
@@ -43,12 +42,13 @@ export async function GET(request: Request) {
     // Create response with redirect
     const response = NextResponse.redirect(new URL(returnTo, request.url));
 
-    // Set auth token cookie
+    // Set auth token cookie with strict security settings
     response.cookies.set('auth_token', tokens.access_token, {
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: '/',
     });
 
     return response;
