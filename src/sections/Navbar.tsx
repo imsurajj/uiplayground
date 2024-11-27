@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { RiMenu3Fill } from 'react-icons/ri';
 import { IoMdClose } from 'react-icons/io';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -20,7 +21,7 @@ const navigation = [
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useUser();
+  const { user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -36,6 +37,11 @@ function Header() {
       e.preventDefault();
       router.push('/login');
     }
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    router.push('/login');
   };
 
   return (
@@ -73,7 +79,7 @@ function Header() {
           <div className="hidden md:flex items-center">
             {user ? (
               <Button
-                onClick={() => router.push('/api/auth/logout')}
+                onClick={() => signOut()}
                 className="bg-green-600 text-white hover:bg-green-700"
               >
                 Logout
@@ -123,7 +129,7 @@ function Header() {
               <div className="px-3 py-2">
                 {user ? (
                   <Button
-                    onClick={() => router.push('/api/auth/logout')}
+                    onClick={() => signOut()}
                     className="w-full bg-green-600 text-white hover:bg-green-700"
                   >
                     Logout

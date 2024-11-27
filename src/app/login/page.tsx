@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faEye, faEyeSlash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface FormData {
   name: string;
@@ -33,6 +34,7 @@ const CriteriaItem = ({ met, text }: { met: boolean; text: string }) => (
 
 export default function LoginPage() {
   const router = useRouter();
+  const { signIn, signUp, signInWithGithub, signInWithGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -51,14 +53,39 @@ export default function LoginPage() {
     hasSpecialChar: /[!@#$%^&*()_+\-={};':"\\|,.<>?]/.test(formData.password),
   };
 
-  const isPasswordValid = () => {
-    return (
-      passwordCriteria.minLength &&
-      passwordCriteria.hasUpperCase &&
-      passwordCriteria.hasLowerCase &&
-      passwordCriteria.hasNumber &&
-      passwordCriteria.hasSpecialChar
-    );
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      if (isSignUp) {
+        const { error } = await signUp(formData.email, formData.password);
+        if (error) throw error;
+        // After signup, show a message about email confirmation
+        router.push('/verify-email');
+      } else {
+        const { error } = await signIn(formData.email, formData.password);
+        if (error) throw error;
+        router.push('/dashboard');
+      }
+    } catch (err: any) {
+      setError(err.message || 'An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSocialLogin = async (provider: 'github' | 'google') => {
+    try {
+      if (provider === 'github') {
+        await signInWithGithub();
+      } else {
+        await signInWithGoogle();
+      }
+    } catch (err: any) {
+      setError(err.message || 'An error occurred with social login');
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,73 +93,6 @@ export default function LoginPage() {
       ...formData,
       [e.target.id]: e.target.value,
     });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    if (isSignUp && !isPasswordValid()) {
-      setError('Please meet all password requirements');
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/auth/custom-auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          isSignUp,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Authentication failed');
-      }
-
-      if (data.redirectUrl) {
-        window.location.href = data.redirectUrl;
-      } else {
-        router.push('/documentation');
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Authentication failed');
-      setIsLoading(false);
-    }
-  };
-
-  const handleSocialAuth = async (provider: string) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/auth/social-auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          provider,
-          isSignUp,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Authentication failed');
-      }
-
-      window.location.href = data.authUrl;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Authentication failed');
-      setIsLoading(false);
-    }
   };
 
   return (
@@ -185,7 +145,7 @@ export default function LoginPage() {
 
         <div className="space-y-3">
           <button
-            onClick={() => handleSocialAuth('google')}
+            onClick={() => handleSocialLogin('google')}
             disabled={isLoading}
             className="w-full px-4 py-2 flex items-center justify-center gap-3 bg-white text-gray-900 rounded-md hover:bg-gray-100 transition-all duration-200 text-sm font-medium"
           >
@@ -194,7 +154,7 @@ export default function LoginPage() {
           </button>
 
           <button
-            onClick={() => handleSocialAuth('github')}
+            onClick={() => handleSocialLogin('github')}
             disabled={isLoading}
             className="w-full px-4 py-2 flex items-center justify-center gap-3 bg-white/5 text-white rounded-md hover:bg-white/10 transition-all duration-200 text-sm font-medium ring-1 ring-inset ring-white/10"
           >

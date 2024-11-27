@@ -5,8 +5,9 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { faClipboardCheck } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -17,15 +18,11 @@ export default function Hero() {
     { number: 0, label: "Weekly Updates", target: 10, prefix: "", suffix: "/week" },
   ]);
 
-  const { user } = useUser();
   const router = useRouter();
+  const { user } = useAuth();
 
   const handleGetStarted = () => {
-    if (!user) {
-      router.push('/login');
-    } else {
-      router.push('/documentation');
-    }
+    router.push('/waitlist');
   };
 
   useEffect(() => {
@@ -119,12 +116,13 @@ export default function Hero() {
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
             <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={handleGetStarted}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors duration-200"
+              className="px-8 py-3 text-base font-medium rounded-lg bg-green-600 text-white hover:bg--500 flex items-center justify-center gap-2"
             >
-              Get Started Free
+              <FontAwesomeIcon icon={faClipboardCheck} className="text-lg" />
+              Join Waitlist
             </motion.button>
             <a 
               // href="https://github.com/imsurajj/uiplaymain"

@@ -1,38 +1,44 @@
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  
-  // If user is on login page and already has auth token, redirect to returnTo or documentation
-  if (pathname === '/login') {
-    const authToken = request.cookies.get('auth_token');
-    if (authToken) {
-      const returnTo = request.nextUrl.searchParams.get('returnTo') || '/documentation';
-      return NextResponse.redirect(new URL(returnTo, request.url));
-    }
-    return NextResponse.next();
+  const res = NextResponse.next();
+  const supabase = createMiddlewareClient({ req: request, res });
+
+  // Refresh session if expired - required for Server Components
+  const { data: { session } } = await supabase.auth.getSession();
+
+  // Protected routes
+  const protectedRoutes = ['/documentation', '/dashboard'];
+  const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname.startsWith(route));
+
+  if (isProtectedRoute && !session) {
+    // Redirect to login if accessing protected route without session
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/login';
+    redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname);
+    return NextResponse.redirect(redirectUrl);
   }
 
-  // Only protect /documentation routes
-  if (!pathname.startsWith('/documentation')) {
-    return NextResponse.next();
+  // Auth routes (login, signup)
+  const authRoutes = ['/login', '/signup'];
+  const isAuthRoute = authRoutes.some(route => request.nextUrl.pathname.startsWith(route));
+
+  if (isAuthRoute && session) {
+    // Redirect to dashboard if accessing auth routes with active session
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
-  // Check for auth token for protected routes
-  const authToken = request.cookies.get('auth_token');
-  if (!authToken) {
-    const url = new URL('/login', request.url);
-    url.searchParams.set('returnTo', pathname);
-    return NextResponse.redirect(url);
-  }
-
-  return NextResponse.next();
+  return res;
 }
 
 export const config = {
   matcher: [
     '/documentation/:path*',
-    '/login'
-  ],
-}
+    '/dashboard/:path*',
+    '/login',
+    '/signup',
+    '/waitlist'
+  ]
+};

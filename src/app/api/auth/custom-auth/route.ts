@@ -49,6 +49,61 @@ export async function POST(request: Request) {
       }
     }
 
+    if (!isSignUp) {
+      try {
+        // Get access token directly using Resource Owner Password grant
+        const tokenResponse = await fetch(`${process.env.AUTH0_ISSUER_BASE_URL}/oauth/token`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            grant_type: 'password',
+            username: email,
+            password: password,
+            client_id: process.env.AUTH0_CLIENT_ID,
+            client_secret: process.env.AUTH0_CLIENT_SECRET,
+            audience: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/`,
+            scope: 'openid profile email',
+          }),
+        });
+
+        const tokenData = await tokenResponse.json();
+
+        if (!tokenResponse.ok) {
+          return NextResponse.json({ error: tokenData.error_description || 'Login failed' }, { status: 401 });
+        }
+
+        // Get user info using the access token
+        const userInfoResponse = await fetch(`${process.env.AUTH0_ISSUER_BASE_URL}/userinfo`, {
+          headers: {
+            Authorization: `Bearer ${tokenData.access_token}`,
+          },
+        });
+
+        const userInfo = await userInfoResponse.json();
+
+        // Create a session cookie
+        const response = NextResponse.json({ 
+          success: true,
+          user: userInfo
+        });
+
+        // Set secure HTTP-only cookie with the access token
+        response.cookies.set('auth_token', tokenData.access_token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          maxAge: 60 * 60 * 24, // 24 hours
+        });
+
+        return response;
+      } catch (error) {
+        console.error('Login error:', error);
+        return NextResponse.json({ error: 'Login failed' }, { status: 500 });
+      }
+    }
+
     // Login attempt using authorization code flow
     try {
       // First, get the authorization URL

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Sora, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { config } from '@fortawesome/fontawesome-svg-core'
 import Header from "@/sections/Navbar";
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { Providers } from "./providers";
+config.autoAddCss = false
 
 const soraFont = Sora({
   subsets: ["latin"],
@@ -20,12 +23,7 @@ export const metadata: Metadata = {
   title: "UI Playground",
   description: "Component Library for Your Next Project",
   icons: {
-    icon: [
-      {
-        url: "/UI.png",
-        href: "/UI.png",
-      },
-    ],
+    icon: "/favicon.ico",
   },
 };
 
@@ -37,10 +35,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${soraFont.variable} ${spaceGroteskFont.variable} antialiased font-body bg-white`}>
-        <UserProvider>
-          <Header />
-          {children}
-        </UserProvider>
+        <Providers>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );
