@@ -1,11 +1,9 @@
 'use client';
 
 import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { useAuth0 } from '@auth0/auth0-react';
 import { motion } from 'framer-motion';
 
 export default function DocumentationPage() {
-  const { user } = useAuth0();
 
   return (
     <ProtectedRoute>
@@ -20,7 +18,7 @@ export default function DocumentationPage() {
             <div className="mb-8">
               <h1 className="text-4xl font-bold mb-4">Documentation</h1>
               <p className="text-gray-400">
-                Welcome {user?.name || 'User'} to our comprehensive documentation.
+                Welcome to our comprehensive documentation.
               </p>
             </div>
 
