@@ -188,14 +188,26 @@ const AnimatedBorderBeam = () => (
 
 const FloatingIcons = () => {
   const icons = [faCode, faRocket, faLightbulb, faCube, faGears, faWandMagicSparkles];
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    // Set dimensions only on client side
+    setDimensions({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+  }, []);
+
+  if (dimensions.width === 0) return null; // Don't render until we have dimensions
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {icons.map((icon, i) => (
         <motion.div
           key={i}
           initial={{ 
-            x: Math.random() * window.innerWidth, 
-            y: Math.random() * window.innerHeight,
+            x: Math.random() * dimensions.width, 
+            y: Math.random() * dimensions.height,
             opacity: 0.2
           }}
           animate={{
