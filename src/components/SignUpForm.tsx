@@ -24,9 +24,8 @@ const SignUpForm: React.FC = () => {
 
       if (error) throw error
 
-      // Force redirect to dashboard
-      window.location.href = '/dashboard'
-      // Alternative: router.push('/dashboard')
+      // Force a hard redirect to docs page
+      window.location.replace('/docs')
     } catch (error) {
       console.error('Error:', error)
     }

@@ -67,7 +67,7 @@ export default function LoginPage() {
       } else {
         const { error } = await signIn(formData.email, formData.password);
         if (error) throw error;
-        router.push('/dashboard');
+        router.push('/docs');
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred');
