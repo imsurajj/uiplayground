@@ -1,65 +1,23 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { supabaseServer } from '@/lib/supabase'
+import { NextResponse } from 'next/server'
 
-// Initialize Supabase client in the API route
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const { name, email } = await req.json();
+    const body = await request.json()
+    const { email } = body
 
-    console.log('Attempting to insert:', { name, email });
-
-    // Check if email already exists
-    const { data: existingUser, error: checkError } = await supabase
+    // Use supabaseServer instead of creating a new client
+    const { data, error } = await supabaseServer
       .from('waitlist')
-      .select()
-      .eq('email', email)
-      .single();
+      .insert([{ email }])
 
-    if (checkError && checkError.code !== 'PGRST116') {
-      console.error('Error checking existing user:', checkError);
-      throw checkError;
-    }
+    if (error) throw error
 
-    if (existingUser) {
-      return NextResponse.json(
-        { error: 'Email already registered' },
-        { status: 400 }
-      );
-    }
-
-    // Insert new user
-    const { data, error: insertError } = await supabase
-      .from('waitlist')
-      .insert([
-        { name, email, status: 'pending' }
-      ])
-      .select();
-
-    if (insertError) {
-      console.error('Error inserting data:', insertError);
-      throw insertError;
-    }
-
-    console.log('Successfully inserted:', data);
-
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Successfully joined waitlist!',
-      data 
-    });
+    return NextResponse.json({ message: 'Success' }, { status: 200 })
   } catch (error) {
-    console.error('Error in waitlist API:', error);
     return NextResponse.json(
-      { 
-        error: 'Failed to process request',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
+      { error: 'Failed to join waitlist' },
       { status: 500 }
-    );
+    )
   }
 }
