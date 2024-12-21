@@ -12,7 +12,7 @@ import { supabase } from '@/lib/supabase';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Docs', href: '/documentation' },
+  { name: 'Docs', href: '/docs' },
   { name: 'Components', href: '/docs/components' },
   { name: 'Pricing', href: '/pricing' },
   { name: 'About', href: '/About' },
@@ -59,7 +59,7 @@ function Header() {
           </Link>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               {navigation.map((item) => (
                 <Link
                   key={item.name}

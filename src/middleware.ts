@@ -9,8 +9,8 @@ export async function middleware(request: NextRequest) {
   // Refresh session if expired - required for Server Components
   const { data: { session } } = await supabase.auth.getSession();
 
-  // Protected routes
-  const protectedRoutes = ['/documentation', '/dashboard'];
+  // Protected routes - only protect dashboard and documentation (not docs)
+  const protectedRoutes = ['/dashboard'];
   const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname.startsWith(route));
 
   if (isProtectedRoute && !session) {
@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
 
   if (isAuthRoute && session) {
     // Redirect to dashboard if accessing auth routes with active session
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    return NextResponse.redirect(new URL('/docs', request.url));
   }
 
   return res;
@@ -35,7 +35,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/documentation/:path*',
     '/dashboard/:path*',
     '/login',
     '/signup',

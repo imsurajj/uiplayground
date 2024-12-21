@@ -63,7 +63,7 @@ export default function LoginPage() {
         const { error } = await signUp(formData.email, formData.password);
         if (error) throw error;
         // After signup, show a message about email confirmation
-        router.push('/verify-email');
+        router.push('/docs');
       } else {
         const { error } = await signIn(formData.email, formData.password);
         if (error) throw error;
